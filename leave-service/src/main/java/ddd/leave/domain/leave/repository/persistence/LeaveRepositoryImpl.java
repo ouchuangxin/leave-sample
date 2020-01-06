@@ -28,6 +28,8 @@ public class LeaveRepositoryImpl implements LeaveRepositoryInterface {
     public void save(LeavePO leavePO) {
         //persist leave entity
         leaveDao.save(leavePO);
+       //set leave_id for approvalInfoPO after save leavePO
+        leavePO.getHistoryApprovalInfoPOList().stream().forEach(approvalInfoPO -> approvalInfoPO.setLeaveId(leavePO.getId()));
         approvalInfoDao.saveAll(leavePO.getHistoryApprovalInfoPOList());
     }
 
