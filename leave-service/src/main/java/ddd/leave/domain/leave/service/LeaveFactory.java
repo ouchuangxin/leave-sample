@@ -44,8 +44,8 @@ public class LeaveFactory {
                 .personName(leavePO.getApproverName())
                 .build();
         leave.setApprover(approver);
-        leave.setStartTime(leave.getStartTime());
-        leave.setStatus(leave.getStatus());
+        leave.setStartTime(leavePO.getStartTime());
+        leave.setStatus(leavePO.getStatus());
         List<ApprovalInfo> approvalInfos = getApprovalInfos(leavePO.getHistoryApprovalInfoPOList());
         leave.setHistoryApprovalInfos(approvalInfos);
         return leave;
