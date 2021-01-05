@@ -23,6 +23,12 @@ public class AuthApi {
 
     @PostMapping("/login")
     public Response login(PersonDTO personDTO){
-        return loginApplicationService.login(PersonAssembler.toDO(personDTO));
+        try {
+			return loginApplicationService.login(PersonAssembler.toDO(personDTO));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
     }
 }
