@@ -1,7 +1,6 @@
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/leave
+    driver-class-name: org.h2.Driver
     username: leave
     password: leave
   jpa:
@@ -12,3 +11,7 @@ spring:
         temp:
           use_jdbc_metadata_defaults: false
     show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
