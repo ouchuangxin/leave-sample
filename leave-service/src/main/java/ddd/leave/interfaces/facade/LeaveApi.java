@@ -35,7 +35,7 @@ public class LeaveApi {
     }
 
     @PutMapping
-    public Response updateLeaveInfo(LeaveDTO leaveDTO){
+    public Response updateLeaveInfo(@RequestBody LeaveDTO leaveDTO){
         Leave leave = null;
         try {
             leave = LeaveAssembler.toDO(leaveDTO);

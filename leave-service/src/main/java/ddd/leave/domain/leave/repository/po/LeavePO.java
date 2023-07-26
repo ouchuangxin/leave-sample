@@ -19,17 +19,14 @@ public class LeavePO {
     String applicantId;
     String applicantName;
 
-    @TableField(typeHandler = MybatisEnumTypeHandler.class)
-    PersonType applicantType;
+    String applicantType;
 
     String approverId;
     String approverName;
 
-    @TableField(typeHandler = MybatisEnumTypeHandler.class)
-    LeaveType leaveType;
+    String leaveType;
 
-    @TableField(typeHandler = MybatisEnumTypeHandler.class)
-    Status status;
+    String status;
 
     Date startTime;
     Date endTime;
@@ -37,9 +34,4 @@ public class LeavePO {
 
     @TableField(exist = false)
     List<ApprovalInfoPO> historyApprovalInfoPOList;
-
-    public Leave toLeave() {
-        return new Leave();
-    }
-
 }

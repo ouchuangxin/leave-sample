@@ -42,7 +42,6 @@ public class Leave {
 
     public Leave create(){
         this.setStatus(Status.APPROVING);
-        this.setStartTime(new Date());
         return this;
     }
 

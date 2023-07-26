@@ -23,4 +23,8 @@ public enum  LeaveEventType {
         }
         return LeaveEventType.CREATE_EVENT;
     }
+
+    public String getVal() {
+        return val;
+    }
 }

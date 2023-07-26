@@ -20,4 +20,8 @@ public enum Status {
         }
         return Status.APPROVING;
     }
+
+    public String getVal() {
+        return val;
+    }
 }

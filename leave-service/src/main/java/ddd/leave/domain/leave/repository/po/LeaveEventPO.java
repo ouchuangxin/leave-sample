@@ -14,8 +14,7 @@ public class LeaveEventPO {
     @TableId
     String id;
 
-    @TableField(typeHandler = MybatisEnumTypeHandler.class)
-    LeaveEventType leaveEventType;
+    String leaveEventType;
 
     Date timestamp;
     String source;

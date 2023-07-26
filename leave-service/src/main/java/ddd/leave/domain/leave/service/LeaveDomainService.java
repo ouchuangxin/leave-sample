@@ -40,10 +40,6 @@ public class LeaveDomainService {
 
     @Transactional
     public void updateLeaveInfo(Leave leave) {
-        LeavePO po = leaveRepositoryInterface.findById(leave.getId());
-        if (null == po) {
-            throw new RuntimeException("leave does not exist");
-        }
         leaveRepositoryInterface.save(leaveFactory.createLeavePO(leave));
     }
 

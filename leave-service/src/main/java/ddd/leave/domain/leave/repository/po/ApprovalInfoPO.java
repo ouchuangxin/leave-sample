@@ -9,6 +9,7 @@ import lombok.Data;
 public class ApprovalInfoPO {
     @TableId
     String approvalInfoId;
+
     String leaveId;
     String applicantId;
     String approverId;

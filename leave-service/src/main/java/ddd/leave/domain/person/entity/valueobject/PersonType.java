@@ -22,4 +22,8 @@ public enum PersonType {
         }
         return PersonType.GRASS;
     }
+
+    public String getVal() {
+        return val;
+    }
 }

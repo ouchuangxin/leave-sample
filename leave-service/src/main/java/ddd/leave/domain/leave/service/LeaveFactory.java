@@ -1,15 +1,16 @@
 package ddd.leave.domain.leave.service;
 
 import com.alibaba.fastjson2.JSON;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import ddd.leave.domain.leave.entity.ApprovalInfo;
 import ddd.leave.domain.leave.entity.Leave;
 import ddd.leave.domain.leave.entity.valueobject.Applicant;
 import ddd.leave.domain.leave.entity.valueobject.Approver;
+import ddd.leave.domain.leave.entity.valueobject.Status;
 import ddd.leave.domain.leave.event.LeaveEvent;
 import ddd.leave.domain.leave.repository.po.ApprovalInfoPO;
 import ddd.leave.domain.leave.repository.po.LeaveEventPO;
 import ddd.leave.domain.leave.repository.po.LeavePO;
-import ddd.leave.domain.person.entity.valueobject.PersonType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,15 +22,16 @@ public class LeaveFactory {
 
     public LeavePO createLeavePO(Leave leave) {
         LeavePO leavePO = new LeavePO();
-        leavePO.setId(UUID.randomUUID().toString());
+        leavePO.setId(StringUtils.isBlank(leave.getId()) ? UUID.randomUUID().toString() : leave.getId());
         leavePO.setApplicantId(leave.getApplicant().getPersonId());
         leavePO.setApplicantName(leave.getApplicant().getPersonName());
-        leavePO.setApplicantType(PersonType.from(leave.getApplicant().getPersonType()));
+        leavePO.setApplicantType(leave.getApplicant().getPersonType().getVal());
         leavePO.setApproverId(leave.getApprover().getPersonId());
         leavePO.setApproverName(leave.getApprover().getPersonName());
         leavePO.setStartTime(leave.getStartTime());
-        leavePO.setStatus(leave.getStatus());
-        leavePO.setLeaveType(leave.getType());
+        leavePO.setEndTime(leave.getEndTime());
+        leavePO.setStatus(leave.getStatus().getVal());
+        leavePO.setLeaveType(leave.getType().getVal());
         leavePO.setDuration(leave.getDuration());
         List<ApprovalInfoPO> historyApprovalInfoPOList = approvalInfoPOListFromDO(leave);
         leavePO.setHistoryApprovalInfoPOList(historyApprovalInfoPOList);
@@ -49,7 +51,7 @@ public class LeaveFactory {
                 .build();
         leave.setApprover(approver);
         leave.setStartTime(leavePO.getStartTime());
-        leave.setStatus(leavePO.getStatus());
+        leave.setStatus(Status.from(leavePO.getStatus()));
         List<ApprovalInfo> approvalInfos = getApprovalInfos(leavePO.getHistoryApprovalInfoPOList());
         leave.setHistoryApprovalInfos(approvalInfos);
         return leave;
@@ -58,7 +60,7 @@ public class LeaveFactory {
     public LeaveEventPO createLeaveEventPO(LeaveEvent leaveEvent){
         LeaveEventPO eventPO = new LeaveEventPO();
         eventPO.setId(leaveEvent.getId());
-        eventPO.setLeaveEventType(leaveEvent.getLeaveEventType());
+        eventPO.setLeaveEventType(leaveEvent.getLeaveEventType().getVal());
         eventPO.setSource(leaveEvent.getSource());
         eventPO.setTimestamp(leaveEvent.getTimestamp());
         eventPO.setData(JSON.toJSONString(leaveEvent.getData()));

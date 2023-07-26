@@ -22,18 +22,17 @@ public class LeaveRepositoryImpl implements LeaveRepositoryInterface {
     LeaveMapper leaveMapper;
     @Autowired
     ApprovalInfoMapper approvalInfoMapper;
-    @Autowired
-    ApprovalInfoMapperServiceImpl approvalInfoMapperService;
 
     @Autowired
     LeaveEventMapper leaveEventMapper;
 
     public void save(LeavePO leavePO) {
-        //persist leave entity
-        leaveMapper.insert(leavePO);
-       //set leave_id for approvalInfoPO after save leavePO
-        leavePO.getHistoryApprovalInfoPOList().stream().forEach(approvalInfoPO -> approvalInfoPO.setLeaveId(leavePO.getId()));
-        approvalInfoMapperService.saveBatch(leavePO.getHistoryApprovalInfoPOList());
+        LeavePO po = findById(leavePO.getId());
+        if (null == po) {
+            leaveMapper.insert(leavePO);
+        } else {
+            leaveMapper.updateById(leavePO);
+        }
     }
 
     public void saveEvent(LeaveEventPO leaveEventPO){
@@ -42,8 +41,7 @@ public class LeaveRepositoryImpl implements LeaveRepositoryInterface {
 
     @Override
     public LeavePO findById(String id) {
-        return Optional.ofNullable(leaveMapper.selectById(id))
-                .orElseThrow(() -> new RuntimeException("leave not found"));
+        return leaveMapper.selectById(id);
     }
 
     @Override

@@ -15,8 +15,8 @@ public class ApprovalRuleRepositoryImpl implements ApprovalRuleRepositoryInterfa
 
     @Override
     public int getLeaderMaxLevel(ApprovalRule rule) {
-        String personType = rule.getPersonType();
-        String leaveType = rule.getLeaveType();
+        String personType = rule.getPersonType().getVal();
+        String leaveType = rule.getLeaveType().getVal();
         ApprovalRulePO rulePo = ruleMapper.findRule(personType, leaveType, rule.getDuration());
         return rulePo.getMaxLeaderLevel();
     }

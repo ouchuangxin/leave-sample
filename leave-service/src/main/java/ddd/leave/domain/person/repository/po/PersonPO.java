@@ -19,8 +19,7 @@ public class PersonPO {
     String personName;
     String departmentId;
 
-    @TableField(typeHandler = MybatisEnumTypeHandler.class)
-    PersonType personType;
+    String personType;
 
     String leaderId;
 
@@ -28,9 +27,5 @@ public class PersonPO {
     Date createTime;
     Date lastModifyTime;
 
-    @TableField(typeHandler = MybatisEnumTypeHandler.class)
-    PersonStatus status;
-
-    @TableField(exist = false)
-    RelationshipPO relationshipPO;
+    String status;
 }

@@ -15,11 +15,9 @@ public class ApprovalRulePO {
     @TableId
     String id;
 
-    @TableField(typeHandler = MybatisEnumTypeHandler.class)
-    LeaveType leaveType;
+    String leaveType;
 
-    @TableField(typeHandler = MybatisEnumTypeHandler.class)
-    PersonType personType;
+    String personType;
 
     long duration;
 

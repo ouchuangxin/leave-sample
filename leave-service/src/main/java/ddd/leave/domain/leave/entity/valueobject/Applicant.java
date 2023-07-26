@@ -1,5 +1,6 @@
 package ddd.leave.domain.leave.entity.valueobject;
 
+import ddd.leave.domain.person.entity.valueobject.PersonType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,5 +14,5 @@ public class Applicant {
 
     String personId;
     String personName;
-    String personType;
+    PersonType personType;
 }

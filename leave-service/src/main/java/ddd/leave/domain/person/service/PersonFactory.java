@@ -1,6 +1,8 @@
 package ddd.leave.domain.person.service;
 
 import ddd.leave.domain.person.entity.Person;
+import ddd.leave.domain.person.entity.valueobject.PersonStatus;
+import ddd.leave.domain.person.entity.valueobject.PersonType;
 import ddd.leave.domain.person.repository.facade.PersonRepository;
 import ddd.leave.domain.person.repository.po.PersonPO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ public class PersonFactory {
         personPO.setPersonId(person.getPersonId());
         personPO.setPersonName(person.getPersonName());
         personPO.setRoleLevel(person.getRoleLevel());
-        personPO.setPersonType(person.getPersonType());
+        personPO.setPersonType(person.getPersonType().getVal());
         personPO.setCreateTime(person.getCreateTime());
         personPO.setLastModifyTime(person.getLastModifyTime());
         return personPO;
@@ -26,10 +28,10 @@ public class PersonFactory {
     public Person createPerson(PersonPO po){
         Person person = new Person();
         person.setPersonId(po.getPersonId());
-        person.setPersonType(po.getPersonType());
+        person.setPersonType(PersonType.from(po.getPersonType()));
         person.setRoleLevel(po.getRoleLevel());
         person.setPersonName(po.getPersonName());
-        person.setStatus(po.getStatus());
+        person.setStatus(PersonStatus.from(po.getStatus()));
         person.setCreateTime(po.getCreateTime());
         person.setLastModifyTime(po.getLastModifyTime());
         return person;
