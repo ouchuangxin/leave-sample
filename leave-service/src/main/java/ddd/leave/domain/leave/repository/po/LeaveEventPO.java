@@ -1,22 +1,22 @@
 package ddd.leave.domain.leave.repository.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler;
 import ddd.leave.domain.leave.event.LeaveEventType;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
 import java.util.Date;
 
 @Data
-@Entity
+@TableName("t_leave_event")
 public class LeaveEventPO {
+    @TableId
+    String id;
 
-    @Id
-    @GenericGenerator(name = "idGenerator", strategy = "uuid") //这个是hibernate的注解/生成32位UUID
-    @GeneratedValue(generator = "idGenerator")
-    int id;
-    @Enumerated(EnumType.STRING)
+    @TableField(typeHandler = MybatisEnumTypeHandler.class)
     LeaveEventType leaveEventType;
+
     Date timestamp;
     String source;
     String data;

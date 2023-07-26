@@ -8,13 +8,13 @@ public class ApprovalRule {
 
     String personType;
     String leaveType;
-    long duration;
+    int duration;
     int maxLeaderLevel;
 
     public static ApprovalRule getByLeave(Leave leave){
         ApprovalRule rule = new ApprovalRule();
         rule.setPersonType(leave.getApplicant().getPersonType());
-        rule.setLeaveType(leave.getType().toString());
+        rule.setLeaveType(leave.getType().getVal());
         rule.setDuration(leave.getDuration());
         return rule;
     }

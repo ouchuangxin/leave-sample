@@ -7,6 +7,9 @@ public class ApprovalInfoAssembler {
 
     public static ApprovalInfo toDO(ApprovalInfoDTO dto){
         ApprovalInfo approvalInfo = new ApprovalInfo();
+        if (dto == null) {
+            return null;
+        }
         approvalInfo.setApprovalInfoId(dto.getApprovalInfoId());
         approvalInfo.setMsg(dto.getMsg());
         approvalInfo.setApprover(ApproverAssembler.toDO(dto.getApproverDTO()));

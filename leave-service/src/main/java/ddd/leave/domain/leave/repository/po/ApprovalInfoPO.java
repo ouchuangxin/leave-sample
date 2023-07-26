@@ -1,19 +1,13 @@
 package ddd.leave.domain.leave.repository.po;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@Entity
 @Data
+@TableName("t_approval_info")
 public class ApprovalInfoPO {
-
-    @Id
-    @GenericGenerator(name = "idGenerator", strategy = "uuid")
-    @GeneratedValue(generator = "idGenerator")
+    @TableId
     String approvalInfoId;
     String leaveId;
     String applicantId;

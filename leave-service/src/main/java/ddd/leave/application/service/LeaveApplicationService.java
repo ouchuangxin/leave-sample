@@ -29,7 +29,7 @@ public class LeaveApplicationService{
      */
     public void createLeaveInfo(Leave leave){
         //get approval leader max level by rule
-        int leaderMaxLevel = approvalRuleDomainService.getLeaderMaxLevel(leave.getApplicant().getPersonType(), leave.getType().toString(), leave.getDuration());
+        int leaderMaxLevel = approvalRuleDomainService.getLeaderMaxLevel(leave.getApplicant().getPersonType(), leave.getType().getVal(), leave.getDuration());
         //find next approver
         Person approver = personDomainService.findFirstApprover(leave.getApplicant().getPersonId(), leaderMaxLevel);
         leaveDomainService.createLeave(leave, leaderMaxLevel, Approver.fromPerson(approver));

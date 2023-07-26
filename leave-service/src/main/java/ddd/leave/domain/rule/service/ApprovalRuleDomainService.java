@@ -11,7 +11,7 @@ public class ApprovalRuleDomainService {
     @Autowired
     ApprovalRuleRepositoryInterface repositoryInterface;
 
-    public int getLeaderMaxLevel(String personType, String leaveType, long duration) {
+    public int getLeaderMaxLevel(String personType, String leaveType, int duration) {
         ApprovalRule rule = new ApprovalRule();
         rule.setPersonType(personType);
         rule.setLeaveType(leaveType);

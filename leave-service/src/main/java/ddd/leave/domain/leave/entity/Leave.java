@@ -23,14 +23,14 @@ public class Leave {
     Status status;
     Date startTime;
     Date endTime;
-    long duration;
+    int duration;
     //审批领导的最大级别
     int leaderMaxLevel;
     ApprovalInfo currentApprovalInfo;
     List<ApprovalInfo> historyApprovalInfos;
 
-    public long getDuration() {
-        return endTime.getTime() - startTime.getTime();
+    public int getDuration() {
+        return duration;
     }
 
     public Leave addHistoryApprovalInfo(ApprovalInfo approvalInfo) {
@@ -63,7 +63,7 @@ public class Leave {
         this.setApprover(null);
         this.setStatus(Status.APPROVED);
         this.setEndTime(new Date());
-        this.setDuration(this.getEndTime().getTime() - this.getStartTime().getTime());
+        this.setDuration(duration);
         return this;
     }
 }

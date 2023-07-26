@@ -1,24 +1,27 @@
 package ddd.leave.domain.rule.repository.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler;
 import ddd.leave.domain.leave.entity.valueobject.LeaveType;
 import ddd.leave.domain.person.entity.valueobject.PersonType;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-
-@Entity
+@TableName("t_approval_rule")
 @Data
 public class ApprovalRulePO {
 
-    @Id
-    @GenericGenerator(name = "idGenerator", strategy = "uuid")
-    @GeneratedValue(generator = "idGenerator")
+    @TableId
     String id;
-    @Enumerated(EnumType.STRING)
+
+    @TableField(typeHandler = MybatisEnumTypeHandler.class)
     LeaveType leaveType;
-    @Enumerated(EnumType.STRING)
+
+    @TableField(typeHandler = MybatisEnumTypeHandler.class)
     PersonType personType;
+
     long duration;
-    String applicantRoleId;
+
+    int maxLeaderLevel;
 }

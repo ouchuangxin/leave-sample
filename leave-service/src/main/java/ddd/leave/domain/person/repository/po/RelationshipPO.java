@@ -1,15 +1,13 @@
 package ddd.leave.domain.person.repository.po;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 @Data
-@Entity
+@TableName("t_relationship")
 public class RelationshipPO {
-
-    @Id
+    @TableId
     String id;
     String personId;
     String leaderId;

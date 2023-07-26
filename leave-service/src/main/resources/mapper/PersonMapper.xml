@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace=绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="ddd.leave.domain.person.repository.mapper.PersonMapper">
+    <!--select查询语句-->
+    <select id="findLeaderByPersonId" resultType="ddd.leave.domain.person.repository.po.PersonPO">
+        select * from t_person where person_id in (select leader_id from t_person where person_id=#{personId});
+    </select>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace=绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="ddd.leave.domain.rule.repository.mapper.ApprovalRuleMapper">
+    <!--大于等于给定duration的最小值-->
+    <select id="findRule" resultType="ddd.leave.domain.rule.repository.po.ApprovalRulePO">
+        select * from t_approval_rule
+        where person_type=#{param1} and leave_type=#{param2} and <![CDATA[ duration>=#{param3} ]]>
+        order by duration
+        limit 1;
+    </select>
+</mapper>

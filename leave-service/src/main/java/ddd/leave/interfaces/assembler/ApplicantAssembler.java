@@ -15,6 +15,7 @@ public class ApplicantAssembler {
     public static Applicant toDO(ApplicantDTO dto){
         Applicant applicant = new Applicant();
         applicant.setPersonId(dto.getPersonId());
+        applicant.setPersonType(dto.getApplicantType());
         applicant.setPersonName(dto.getPersonName());
         return applicant;
     }

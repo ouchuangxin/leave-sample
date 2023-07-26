@@ -15,7 +15,7 @@ public class LeaveDTO {
     List<ApprovalInfoDTO> historyApprovalInfoDTOList;
     String startTime;
     String endTime;
-    long duration;
+    int duration;
     String status;
 
 }

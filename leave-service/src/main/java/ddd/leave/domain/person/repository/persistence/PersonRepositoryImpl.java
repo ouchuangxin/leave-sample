@@ -1,37 +1,38 @@
 package ddd.leave.domain.person.repository.persistence;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import ddd.leave.domain.person.repository.po.PersonPO;
 import ddd.leave.domain.person.repository.facade.PersonRepository;
-import ddd.leave.domain.person.repository.mapper.PersonDao;
+import ddd.leave.domain.person.repository.mapper.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class PersonRepositoryImpl implements PersonRepository {
 
     @Autowired
-    PersonDao personDao;
+    PersonMapper personMapper;
 
     @Override
     public void insert(PersonPO personPO) {
-        personDao.save(personPO);
+        personMapper.insert(personPO);
     }
 
     @Override
     public void update(PersonPO personPO) {
-        personDao.save(personPO);
+        personMapper.update(personPO, new LambdaQueryWrapper<>(personPO).eq(po -> po.getPersonId(), personPO.getPersonId()));
     }
 
     @Override
     public PersonPO findById(String id) {
-        return personDao.findById(id).orElseThrow(() -> new RuntimeException("未找到用户"));
+        return Optional.ofNullable(personMapper.selectById(id)).orElseThrow(() -> new RuntimeException("未找到用户"));
     }
 
     @Override
     public PersonPO findLeaderByPersonId(String personId) {
-        return personDao.findLeaderByPersonId(personId);
+        return personMapper.findLeaderByPersonId(personId);
     }
 
 }

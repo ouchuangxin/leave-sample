@@ -1,6 +1,6 @@
 package ddd.leave.domain.leave.service;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import ddd.leave.domain.leave.entity.ApprovalInfo;
 import ddd.leave.domain.leave.entity.Leave;
 import ddd.leave.domain.leave.entity.valueobject.Applicant;
@@ -9,6 +9,7 @@ import ddd.leave.domain.leave.event.LeaveEvent;
 import ddd.leave.domain.leave.repository.po.ApprovalInfoPO;
 import ddd.leave.domain.leave.repository.po.LeaveEventPO;
 import ddd.leave.domain.leave.repository.po.LeavePO;
+import ddd.leave.domain.person.entity.valueobject.PersonType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +24,13 @@ public class LeaveFactory {
         leavePO.setId(UUID.randomUUID().toString());
         leavePO.setApplicantId(leave.getApplicant().getPersonId());
         leavePO.setApplicantName(leave.getApplicant().getPersonName());
+        leavePO.setApplicantType(PersonType.from(leave.getApplicant().getPersonType()));
         leavePO.setApproverId(leave.getApprover().getPersonId());
         leavePO.setApproverName(leave.getApprover().getPersonName());
         leavePO.setStartTime(leave.getStartTime());
         leavePO.setStatus(leave.getStatus());
+        leavePO.setLeaveType(leave.getType());
+        leavePO.setDuration(leave.getDuration());
         List<ApprovalInfoPO> historyApprovalInfoPOList = approvalInfoPOListFromDO(leave);
         leavePO.setHistoryApprovalInfoPOList(historyApprovalInfoPOList);
         return leavePO;
@@ -53,6 +57,7 @@ public class LeaveFactory {
 
     public LeaveEventPO createLeaveEventPO(LeaveEvent leaveEvent){
         LeaveEventPO eventPO = new LeaveEventPO();
+        eventPO.setId(leaveEvent.getId());
         eventPO.setLeaveEventType(leaveEvent.getLeaveEventType());
         eventPO.setSource(leaveEvent.getSource());
         eventPO.setTimestamp(leaveEvent.getTimestamp());
