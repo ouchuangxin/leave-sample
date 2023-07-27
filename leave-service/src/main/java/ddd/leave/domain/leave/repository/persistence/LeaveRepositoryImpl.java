@@ -40,8 +40,19 @@ public class LeaveRepositoryImpl implements LeaveRepositoryInterface {
     }
 
     @Override
+    public void saveApprovalInfo(ApprovalInfoPO approvalInfoPO) {
+        approvalInfoMapper.insert(approvalInfoPO);
+    }
+
+    @Override
     public LeavePO findById(String id) {
-        return leaveMapper.selectById(id);
+        LeavePO leavePO = leaveMapper.selectById(id);
+        return leavePO;
+    }
+
+    @Override
+    public List<ApprovalInfoPO> findByLeaveId(String leaveId) {
+        return approvalInfoMapper.queryByLeaveId(leaveId);
     }
 
     @Override
@@ -49,11 +60,7 @@ public class LeaveRepositoryImpl implements LeaveRepositoryInterface {
         List<LeavePO> leavePOList = leaveMapper.queryByApplicantId(applicantId);
         List<LeavePO> leavePOList2 = leaveMapper.selectList(new QueryWrapper<LeavePO>().eq("applicant_id", applicantId));
         assert leavePOList.size() == leavePOList2.size();
-        leavePOList.stream()
-                .forEach(leavePO -> {
-                    List<ApprovalInfoPO> approvalInfoPOList = approvalInfoMapper.queryByLeaveId(leavePO.getId());
-                    leavePO.setHistoryApprovalInfoPOList(approvalInfoPOList);
-                });
+
         return leavePOList;
     }
 
@@ -63,11 +70,6 @@ public class LeaveRepositoryImpl implements LeaveRepositoryInterface {
         List<LeavePO> leavePOList2 = leaveMapper.selectList(new QueryWrapper<LeavePO>().eq("approver_id", approverId));
         assert leavePOList.size() == leavePOList2.size();
 
-        leavePOList.stream()
-                .forEach(leavePO -> {
-                    List<ApprovalInfoPO> approvalInfoPOList = approvalInfoMapper.queryByLeaveId(leavePO.getId());
-                    leavePO.setHistoryApprovalInfoPOList(approvalInfoPOList);
-                });
         return leavePOList;
     }
 

@@ -30,8 +30,7 @@ public class LeavePO {
 
     Date startTime;
     Date endTime;
-    long duration;
+    int duration;
 
-    @TableField(exist = false)
-    List<ApprovalInfoPO> historyApprovalInfoPOList;
+
 }

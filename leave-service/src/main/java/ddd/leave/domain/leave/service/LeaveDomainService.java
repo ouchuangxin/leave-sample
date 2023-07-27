@@ -6,6 +6,7 @@ import ddd.leave.domain.leave.entity.valueobject.Approver;
 import ddd.leave.domain.leave.event.LeaveEvent;
 import ddd.leave.domain.leave.event.LeaveEventType;
 import ddd.leave.domain.leave.repository.facade.LeaveRepositoryInterface;
+import ddd.leave.domain.leave.repository.po.ApprovalInfoPO;
 import ddd.leave.domain.leave.repository.po.LeavePO;
 import ddd.leave.infrastructure.common.event.EventPublisher;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +62,8 @@ public class LeaveDomainService {
                 event = LeaveEvent.create(LeaveEventType.APPROVED_EVENT, leave);
             }
         }
-        leave.addHistoryApprovalInfo(leave.getCurrentApprovalInfo());
+
+        leaveRepositoryInterface.saveApprovalInfo(leaveFactory.createApprovalInfoPO(leave));
         leaveRepositoryInterface.save(leaveFactory.createLeavePO(leave));
         leaveRepositoryInterface.saveEvent(leaveFactory.createLeaveEventPO(event));
         eventPublisher.publish(event);
@@ -69,7 +71,9 @@ public class LeaveDomainService {
 
     public Leave getLeaveInfo(String leaveId) {
         LeavePO leavePO = leaveRepositoryInterface.findById(leaveId);
-        return leaveFactory.getLeave(leavePO);
+        Leave leave = leaveFactory.getLeave(leavePO);
+        leave.setHistoryApprovalInfos(leaveFactory.approvalInfoDOListFromPO(leaveRepositoryInterface.findByLeaveId(leaveId)));
+        return leave;
     }
 
     public List<Leave> queryLeaveInfosByApplicant(String applicantId) {

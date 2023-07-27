@@ -48,7 +48,7 @@ public class LeaveApi {
     }
 
     @PostMapping("/submit")
-    public Response submitApproval(LeaveDTO leaveDTO){
+    public Response submitApproval(@RequestBody LeaveDTO leaveDTO){
         Leave leave = null;
         try {
             leave = LeaveAssembler.toDO(leaveDTO);

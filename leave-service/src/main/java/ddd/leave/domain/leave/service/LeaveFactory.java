@@ -6,11 +6,13 @@ import ddd.leave.domain.leave.entity.ApprovalInfo;
 import ddd.leave.domain.leave.entity.Leave;
 import ddd.leave.domain.leave.entity.valueobject.Applicant;
 import ddd.leave.domain.leave.entity.valueobject.Approver;
+import ddd.leave.domain.leave.entity.valueobject.LeaveType;
 import ddd.leave.domain.leave.entity.valueobject.Status;
 import ddd.leave.domain.leave.event.LeaveEvent;
 import ddd.leave.domain.leave.repository.po.ApprovalInfoPO;
 import ddd.leave.domain.leave.repository.po.LeaveEventPO;
 import ddd.leave.domain.leave.repository.po.LeavePO;
+import ddd.leave.interfaces.dto.ApprovalInfoDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,9 +35,14 @@ public class LeaveFactory {
         leavePO.setStatus(leave.getStatus().getVal());
         leavePO.setLeaveType(leave.getType().getVal());
         leavePO.setDuration(leave.getDuration());
-        List<ApprovalInfoPO> historyApprovalInfoPOList = approvalInfoPOListFromDO(leave);
-        leavePO.setHistoryApprovalInfoPOList(historyApprovalInfoPOList);
         return leavePO;
+    }
+
+    public ApprovalInfoPO createApprovalInfoPO(Leave leave) {
+        ApprovalInfoPO approvalInfoPO = approvalInfoPOFromDO(leave.getCurrentApprovalInfo());
+        approvalInfoPO.setLeaveId(leave.getId());
+        approvalInfoPO.setApplicantId(leave.getApplicant().getPersonId());
+        return approvalInfoPO;
     }
 
     public Leave getLeave(LeavePO leavePO) {
@@ -49,11 +56,13 @@ public class LeaveFactory {
                 .personId(leavePO.getApproverId())
                 .personName(leavePO.getApproverName())
                 .build();
+        leave.setId(leavePO.getId());
+        leave.setType(LeaveType.from(leavePO.getLeaveType()));
         leave.setApprover(approver);
         leave.setStartTime(leavePO.getStartTime());
+        leave.setEndTime(leavePO.getEndTime());
+        leave.setDuration(leavePO.getDuration());
         leave.setStatus(Status.from(leavePO.getStatus()));
-        List<ApprovalInfo> approvalInfos = getApprovalInfos(leavePO.getHistoryApprovalInfoPOList());
-        leave.setHistoryApprovalInfos(approvalInfos);
         return leave;
     }
 
@@ -67,14 +76,7 @@ public class LeaveFactory {
         return eventPO;
     }
 
-    private List<ApprovalInfoPO> approvalInfoPOListFromDO(Leave leave) {
-        return leave.getHistoryApprovalInfos()
-                .stream()
-                .map(approvalInfo -> approvalInfoPOFromDO(approvalInfo))
-                .collect(Collectors.toList());
-    }
-
-    private ApprovalInfoPO approvalInfoPOFromDO(ApprovalInfo approvalInfo){
+    public ApprovalInfoPO approvalInfoPOFromDO(ApprovalInfo approvalInfo){
         ApprovalInfoPO po = new ApprovalInfoPO();
         po.setApproverId(approvalInfo.getApprover().getPersonId());
         po.setApproverLevel(approvalInfo.getApprover().getLevel());
@@ -85,7 +87,7 @@ public class LeaveFactory {
         return po;
     }
 
-    private ApprovalInfo approvalInfoFromPO(ApprovalInfoPO approvalInfoPO){
+    public ApprovalInfo approvalInfoFromPO(ApprovalInfoPO approvalInfoPO){
         ApprovalInfo approvalInfo = new ApprovalInfo();
         approvalInfo.setApprovalInfoId(approvalInfoPO.getApprovalInfoId());
         Approver approver = Approver.builder()
@@ -99,9 +101,17 @@ public class LeaveFactory {
         return approvalInfo;
     }
 
-    private List<ApprovalInfo> getApprovalInfos(List<ApprovalInfoPO> approvalInfoPOList){
-        return approvalInfoPOList.stream()
-                .map(approvalInfoPO -> approvalInfoFromPO(approvalInfoPO))
+    public List<ApprovalInfoPO> approvalInfoPOListFromDO(List<ApprovalInfo> historyApprovalInfos) {
+        return historyApprovalInfos
+                .stream()
+                .map(approvalInfo -> approvalInfoPOFromDO(approvalInfo))
+                .collect(Collectors.toList());
+    }
+
+    public List<ApprovalInfo> approvalInfoDOListFromPO(List<ApprovalInfoPO> historyApprovalInfos) {
+        return historyApprovalInfos
+                .stream()
+                .map(approvalInfo -> approvalInfoFromPO(approvalInfo))
                 .collect(Collectors.toList());
     }
 }

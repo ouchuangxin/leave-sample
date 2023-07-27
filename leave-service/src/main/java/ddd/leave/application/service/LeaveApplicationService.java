@@ -48,8 +48,14 @@ public class LeaveApplicationService{
      * @param leave
      */
     public void submitApproval(Leave leave){
+        //get approval leader max level by rule
+        int leaderMaxLevel = approvalRuleDomainService.getLeaderMaxLevel(leave.getApplicant().getPersonType(), leave.getType(), leave.getDuration());
+
         //find next approver
-        Person approver = personDomainService.findNextApprover(leave.getApprover().getPersonId(), leave.getLeaderMaxLevel());
+        Person approver = personDomainService.findNextApprover(leave.getApprover().getPersonId(), leaderMaxLevel);
+        if (approver == null) {
+            throw new IllegalStateException("approver is null");
+        }
         leaveDomainService.submitApproval(leave, Approver.fromPerson(approver));
     }
 
