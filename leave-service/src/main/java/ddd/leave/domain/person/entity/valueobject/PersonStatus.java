@@ -23,4 +23,8 @@ public enum PersonStatus {
         }
         return PersonStatus.ENABLE;
     }
+
+    public String getVal() {
+        return val;
+    }
 }

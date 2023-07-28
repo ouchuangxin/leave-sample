@@ -11,4 +11,6 @@ public class PersonDTO {
     String createTime;
     String lastModifyTime;
     String status;
+    String leaderId;
+    int roleLevel;
 }

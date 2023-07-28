@@ -23,7 +23,7 @@ public class PersonDomainService {
 
     public void create(Person person) {
         PersonPO personPO = personRepository.findById(person.getPersonId());
-        if (null == personPO) {
+        if (null != personPO) {
             throw new RuntimeException("Person already exists");
         }
         person.create();

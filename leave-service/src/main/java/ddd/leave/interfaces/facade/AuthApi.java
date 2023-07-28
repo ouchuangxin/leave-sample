@@ -10,6 +10,7 @@ import ddd.leave.interfaces.dto.PersonDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ public class AuthApi {
     LoginApplicationService loginApplicationService;
 
     @PostMapping("/login")
-    public Response login(PersonDTO personDTO){
+    public Response login(@RequestBody PersonDTO personDTO){
         try {
 			return loginApplicationService.login(PersonAssembler.toDO(personDTO));
 		} catch (ParseException e) {

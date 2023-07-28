@@ -22,6 +22,9 @@ public class PersonFactory {
         personPO.setPersonType(person.getPersonType().getVal());
         personPO.setCreateTime(person.getCreateTime());
         personPO.setLastModifyTime(person.getLastModifyTime());
+        personPO.setStatus(person.getStatus().getVal());
+        personPO.setLeaderId(person.getLeaderId());
+        personPO.setRoleLevel(person.getRoleLevel());
         return personPO;
     }
 
@@ -34,6 +37,8 @@ public class PersonFactory {
         person.setStatus(PersonStatus.from(po.getStatus()));
         person.setCreateTime(po.getCreateTime());
         person.setLastModifyTime(po.getLastModifyTime());
+        person.setLeaderId(po.getLeaderId());
+        person.setRoleLevel(po.getRoleLevel());
         return person;
     }
 

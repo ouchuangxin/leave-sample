@@ -1,6 +1,7 @@
 package ddd.leave.domain.person.repository.persistence;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import ddd.leave.domain.person.repository.po.PersonPO;
 import ddd.leave.domain.person.repository.facade.PersonRepository;
 import ddd.leave.domain.person.repository.mapper.PersonMapper;
@@ -22,12 +23,14 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     @Override
     public void update(PersonPO personPO) {
-        personMapper.update(personPO, new LambdaQueryWrapper<>(personPO).eq(po -> po.getPersonId(), personPO.getPersonId()));
+        UpdateWrapper<PersonPO> wrapper = new UpdateWrapper<>();
+        wrapper.eq("person_id", personPO.getPersonId());
+        personMapper.update(personPO, wrapper);
     }
 
     @Override
     public PersonPO findById(String id) {
-        return Optional.ofNullable(personMapper.selectById(id)).orElseThrow(() -> new RuntimeException("未找到用户"));
+        return personMapper.selectById(id);
     }
 
     @Override
