@@ -1,13 +1,13 @@
 package ddd.leave.domain.leave.repository.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import ddd.leave.domain.leave.repository.po.LeavePO;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-@Repository
-public interface LeaveDao extends JpaRepository<LeavePO, String> {
+@Mapper
+public interface LeaveMapper extends BaseMapper<LeavePO> {
 
     List<LeavePO> queryByApplicantId(String applicantId);
 

@@ -1,3 +1,12 @@
+# 更新说明 2023-07-28
+原来示例项目基于spring cloud， 作为一个示例项目太笨重了，而且代码运行不起来，比如缺少数据库脚本，代码低级错误等等，这些问题虽然对理解DDD概念影响小。
+但如果有一个可运行的示例，对理解DDD概念以及动手实践则有更大的帮助。 本次重写基于spring boot 3 + mybatis plus + mysql。
+* 数据库脚本位于src/main/resources/sql/schema.sql
+* API 测试的cURL命令位于 src/test/resource/ApiTest.cURL
+* PO面向后台数据库， 个人觉得应该仅包含最基本的字段，避免嵌套List，Map等。而DO, DTO不受限制。
+
+*** 
+
 # leave-sample
 一、说明
 

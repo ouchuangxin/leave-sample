@@ -13,11 +13,11 @@ public class Person {
     String personId;
     String personName;
     PersonType personType;
-    List<Relationship> relationships;
     int roleLevel;
     Date createTime;
     Date lastModifyTime;
     PersonStatus status;
+    String leaderId;
 
     public Person create(){
         this.createTime = new Date();

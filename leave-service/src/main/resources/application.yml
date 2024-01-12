@@ -1,14 +1,12 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /ddd
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/leave
-    username: leave
-    password: leave
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        temp:
-          use_jdbc_metadata_defaults: false
-    show-sql: true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:33307/leavedb?serverTimezone=UTC&useSSL=false
+    username: root
+    password: 123456
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml

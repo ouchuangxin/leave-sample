@@ -1,6 +1,6 @@
 package ddd.leave.domain.leave.event;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import ddd.leave.domain.leave.entity.Leave;
 import ddd.leave.infrastructure.common.event.DomainEvent;
 import ddd.leave.infrastructure.util.IdGenerator;

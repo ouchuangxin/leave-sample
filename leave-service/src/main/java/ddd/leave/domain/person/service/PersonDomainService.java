@@ -23,7 +23,7 @@ public class PersonDomainService {
 
     public void create(Person person) {
         PersonPO personPO = personRepository.findById(person.getPersonId());
-        if (null == personPO) {
+        if (null != personPO) {
             throw new RuntimeException("Person already exists");
         }
         person.create();
@@ -56,6 +56,7 @@ public class PersonDomainService {
      */
     public Person findFirstApprover(String applicantId, int leaderMaxLevel) {
         PersonPO leaderPO = personRepository.findLeaderByPersonId(applicantId);
+        // 领导层级高于规则配置的最大层级，表示是大boss，转秘书审批。
         if (leaderPO.getRoleLevel() > leaderMaxLevel) {
             return null;
         } else {

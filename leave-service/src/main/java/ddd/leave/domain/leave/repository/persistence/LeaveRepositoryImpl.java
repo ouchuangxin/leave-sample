@@ -1,9 +1,8 @@
 package ddd.leave.domain.leave.repository.persistence;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import ddd.leave.domain.leave.repository.facade.LeaveRepositoryInterface;
-import ddd.leave.domain.leave.repository.mapper.ApprovalInfoDao;
-import ddd.leave.domain.leave.repository.mapper.LeaveDao;
-import ddd.leave.domain.leave.repository.mapper.LeaveEventDao;
+import ddd.leave.domain.leave.repository.mapper.*;
 import ddd.leave.domain.leave.repository.po.ApprovalInfoPO;
 import ddd.leave.domain.leave.repository.po.LeaveEventPO;
 import ddd.leave.domain.leave.repository.po.LeavePO;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * persist entity and handle event in repository
@@ -19,49 +19,57 @@ import java.util.List;
 public class LeaveRepositoryImpl implements LeaveRepositoryInterface {
 
     @Autowired
-    LeaveDao leaveDao;
+    LeaveMapper leaveMapper;
     @Autowired
-    ApprovalInfoDao approvalInfoDao;
+    ApprovalInfoMapper approvalInfoMapper;
+
     @Autowired
-    LeaveEventDao leaveEventDao;
+    LeaveEventMapper leaveEventMapper;
 
     public void save(LeavePO leavePO) {
-        //persist leave entity
-        leaveDao.save(leavePO);
-       //set leave_id for approvalInfoPO after save leavePO
-        leavePO.getHistoryApprovalInfoPOList().stream().forEach(approvalInfoPO -> approvalInfoPO.setLeaveId(leavePO.getId()));
-        approvalInfoDao.saveAll(leavePO.getHistoryApprovalInfoPOList());
+        LeavePO po = findById(leavePO.getId());
+        if (null == po) {
+            leaveMapper.insert(leavePO);
+        } else {
+            leaveMapper.updateById(leavePO);
+        }
     }
 
     public void saveEvent(LeaveEventPO leaveEventPO){
-        leaveEventDao.save(leaveEventPO);
+        leaveEventMapper.insert(leaveEventPO);
+    }
+
+    @Override
+    public void saveApprovalInfo(ApprovalInfoPO approvalInfoPO) {
+        approvalInfoMapper.insert(approvalInfoPO);
     }
 
     @Override
     public LeavePO findById(String id) {
-        return leaveDao.findById(id)
-                .orElseThrow(() -> new RuntimeException("leave not found"));
+        LeavePO leavePO = leaveMapper.selectById(id);
+        return leavePO;
+    }
+
+    @Override
+    public List<ApprovalInfoPO> findByLeaveId(String leaveId) {
+        return approvalInfoMapper.queryByLeaveId(leaveId);
     }
 
     @Override
     public List<LeavePO> queryByApplicantId(String applicantId) {
-        List<LeavePO> leavePOList = leaveDao.queryByApplicantId(applicantId);
-        leavePOList.stream()
-                .forEach(leavePO -> {
-                    List<ApprovalInfoPO> approvalInfoPOList = approvalInfoDao.queryByLeaveId(leavePO.getId());
-                    leavePO.setHistoryApprovalInfoPOList(approvalInfoPOList);
-                });
+        List<LeavePO> leavePOList = leaveMapper.queryByApplicantId(applicantId);
+        List<LeavePO> leavePOList2 = leaveMapper.selectList(new QueryWrapper<LeavePO>().eq("applicant_id", applicantId));
+        assert leavePOList.size() == leavePOList2.size();
+
         return leavePOList;
     }
 
     @Override
     public List<LeavePO> queryByApproverId(String approverId) {
-        List<LeavePO> leavePOList = leaveDao.queryByApproverId(approverId);
-        leavePOList.stream()
-                .forEach(leavePO -> {
-                    List<ApprovalInfoPO> approvalInfoPOList = approvalInfoDao.queryByLeaveId(leavePO.getId());
-                    leavePO.setHistoryApprovalInfoPOList(approvalInfoPOList);
-                });
+        List<LeavePO> leavePOList = leaveMapper.queryByApproverId(approverId);
+        List<LeavePO> leavePOList2 = leaveMapper.selectList(new QueryWrapper<LeavePO>().eq("approver_id", approverId));
+        assert leavePOList.size() == leavePOList2.size();
+
         return leavePOList;
     }
 

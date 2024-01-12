@@ -1,42 +1,36 @@
 package ddd.leave.domain.leave.repository.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler;
 import ddd.leave.domain.leave.entity.Leave;
 import ddd.leave.domain.leave.entity.valueobject.LeaveType;
 import ddd.leave.domain.leave.entity.valueobject.Status;
 import ddd.leave.domain.person.entity.valueobject.PersonType;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
 import java.util.*;
 
-@Entity
-@Table(name = "Leave")
+@TableName("t_leave")
 @Data
 public class LeavePO {
-
-    @Id
-    @GenericGenerator(name="idGenerator", strategy="uuid") //这个是hibernate的注解/生成32位UUID
-    @GeneratedValue(generator="idGenerator")
+    @TableId
     String id;
     String applicantId;
     String applicantName;
-    @Enumerated(EnumType.STRING)
-    PersonType applicantType;
+
+    String applicantType;
+
     String approverId;
     String approverName;
-    @Enumerated(EnumType.STRING)
-    LeaveType leaveType;
-    @Enumerated(EnumType.STRING)
-    Status status;
+
+    String leaveType;
+
+    String status;
+
     Date startTime;
     Date endTime;
-    long duration;
-    @Transient
-    List<ApprovalInfoPO> historyApprovalInfoPOList;
+    int duration;
 
-    public Leave toLeave() {
-        return new Leave();
-    }
 
 }

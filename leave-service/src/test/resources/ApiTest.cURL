@@ -1,0 +1,114 @@
+curl --location --request POST 'http://localhost:8082/ddd/leave' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "applicantDTO": {
+        "applicantType": "internal",
+        "leaderId": "person002",
+        "personId": "person001"
+    },
+    "approverDTO": {
+        "personId": "person002"
+    },
+    "duration": 7,
+    "endTime": "2023-07-01 13:23:23",
+    "leaveId": "leave001",
+    "leaveType": "internal",
+    "startTime": "2023-07-08 13:23:23",
+    "status": "approving"
+}'
+
+curl --location --request PUT 'http://localhost:8082/ddd/leave' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "applicantDTO": {
+        "applicantType": "grass",
+        "leaderId": "person002",
+        "personId": "person001"
+    },
+    "approverDTO": {
+        "personId": "person002"
+    },
+    "duration": 6,
+    "endTime": "2023-07-08 13:23:23",
+    "leaveId": "leave001",
+    "leaveType": "internal",
+    "startTime": "2023-07-02 13:23:23",
+    "status": "approving"
+}'
+
+curl --location --request POST 'http://localhost:8082/ddd/leave/submit' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "applicantDTO": {
+        "applicantType": "internal",
+        "leaderId": "person002",
+        "personId": "person001"
+    },
+    "approverDTO": {
+        "personId": "person002"
+    },
+    "currentApprovalInfoDTO": {
+        "approverDTO": {
+            "personId": "person002"
+        },
+        "approvalType": "agree",
+        "msg": "pass"
+    },
+    "duration": 8,
+    "endTime": "2023-07-01 13:23:23",
+    "leaveId": "leave001",
+    "leaveType": "internal",
+    "startTime": "2023-07-09 13:23:23",
+    "status": "approving"
+}'
+
+curl --location --request POST 'http://localhost:8082/ddd/leave/leave001'
+
+curl --location --request POST 'http://localhost:8082/ddd/leave/query/applicant/person001'
+
+curl --location --request POST 'http://localhost:8082/ddd/leave/query/approver/person003'
+
+curl --location --request POST 'http://localhost:8082/ddd/person' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "personId": "personA",
+    "personName": "personA",
+    "personType": "grass",
+    "createTime": "2023-07-08 13:23:23",
+    "lastModifyTime": "2023-07-08 13:23:23",
+    "status": "enabled",
+    "leaderId":"leaderA",
+    "roleLevel": 2
+}'
+
+curl --location --request PUT 'http://localhost:8082/ddd/person' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "personId": "personA",
+    "personName": "personA",
+    "personType": "grass",
+    "createTime": "2023-07-08 13:23:23",
+    "lastModifyTime": "2023-07-08 13:23:23",
+    "status": "enabled",
+    "leaderId":"leaderB",
+    "roleLevel": 1
+}'
+
+curl --location --request DELETE 'http://localhost:8082/ddd/person/personA'
+
+curl --location --request GET 'http://localhost:8082/ddd/person/personA'
+
+curl --location --request GET 'http://localhost:8082/ddd/person/findFirstApprover?applicantId=person001&leaderMaxLevel=2'
+
+curl --location --request POST 'http://localhost:8082/ddd/auth/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "personId": "personA",
+    "personName": "personA",
+    "personType": "grass",
+    "createTime": "2023-07-08 13:23:23",
+    "lastModifyTime": "2023-07-08 13:23:23",
+    "status": "enabled",
+    "leaderId":"leaderA",
+    "roleLevel": 2
+}'
