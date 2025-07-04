@@ -1,5 +1,7 @@
 create database leavedb;
 
+use leavedb;
+
 CREATE TABLE IF NOT EXISTS t_leave(
     id varchar(64) NOT NULL PRIMARY KEY,
     applicant_id varchar(64) NOT NULL,
@@ -69,10 +71,3 @@ insert into t_approval_rule(id, leave_type, person_type, duration, max_leader_le
 values("rule002", "internal", "grass", 7, 2);
 insert into t_approval_rule(id, leave_type, person_type, duration, max_leader_level)
 values("rule003", "internal", "grass", 10, 3);
-
-
-drop table t_leave;
-drop table t_leave_event;
-drop table t_person;
-drop table t_approval_rule;
-drop table t_approval_info;
