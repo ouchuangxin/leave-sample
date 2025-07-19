@@ -24,7 +24,7 @@ public class PersonApplicationService {
     }
 
     public Person findById(String personId) {
-        return null;
+        return personDomainService.findById(personId);
     }
 
     public Person findFirstApprover(String applicantId, int leaderMaxLevel) {

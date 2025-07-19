@@ -2,7 +2,7 @@ package ddd.leave.application.service;
 
 import ddd.leave.domain.person.entity.Person;
 import ddd.leave.domain.person.service.PersonDomainService;
-import ddd.leave.infrastructure.client.AuthFeignClient;
+import ddd.leave.infrastructure.client.AuthClient;
 import ddd.leave.infrastructure.common.api.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 public class LoginApplicationService{
 
     @Autowired
-    AuthFeignClient authService;
+    AuthClient authService;
+
     @Autowired
     PersonDomainService personDomainService;
 

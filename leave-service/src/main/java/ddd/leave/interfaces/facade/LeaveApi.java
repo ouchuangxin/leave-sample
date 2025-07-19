@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,23 +23,40 @@ public class LeaveApi {
     LeaveApplicationService leaveApplicationService;
 
     @PostMapping
-    public Response createLeaveInfo(LeaveDTO leaveDTO){
-        Leave leave = LeaveAssembler.toDO(leaveDTO);
-        leaveApplicationService.createLeaveInfo(leave);
+    public Response createLeaveInfo(@RequestBody LeaveDTO leaveDTO){
+        Leave leave = null;
+        try {
+            leave = LeaveAssembler.toDO(leaveDTO);
+            leaveApplicationService.createLeaveInfo(leave);
+        } catch (ParseException e) {
+            return Response.failed(e.getMessage());
+        }
         return Response.ok();
     }
 
     @PutMapping
-    public Response updateLeaveInfo(LeaveDTO leaveDTO){
-        Leave leave = LeaveAssembler.toDO(leaveDTO);
-        leaveApplicationService.updateLeaveInfo(leave);
+    public Response updateLeaveInfo(@RequestBody LeaveDTO leaveDTO){
+        Leave leave = null;
+        try {
+            leave = LeaveAssembler.toDO(leaveDTO);
+            leaveApplicationService.updateLeaveInfo(leave);
+
+        } catch (ParseException e) {
+            return Response.failed(e.getMessage());
+        }
         return Response.ok();
     }
 
     @PostMapping("/submit")
-    public Response submitApproval(LeaveDTO leaveDTO){
-        Leave leave = LeaveAssembler.toDO(leaveDTO);
-        leaveApplicationService.submitApproval(leave);
+    public Response submitApproval(@RequestBody LeaveDTO leaveDTO){
+        Leave leave = null;
+        try {
+            leave = LeaveAssembler.toDO(leaveDTO);
+            leaveApplicationService.submitApproval(leave);
+        } catch (ParseException e) {
+            return Response.failed(e.getMessage());
+        }
+
         return Response.ok();
     }
 

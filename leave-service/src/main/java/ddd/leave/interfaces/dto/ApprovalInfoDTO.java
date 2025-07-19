@@ -7,6 +7,7 @@ public class ApprovalInfoDTO {
 
     String approvalInfoId;
     ApproverDTO approverDTO;
+    String approvalType;
     String msg;
     long time;
 }

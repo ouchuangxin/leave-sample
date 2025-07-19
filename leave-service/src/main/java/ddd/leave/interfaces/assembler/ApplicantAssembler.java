@@ -1,6 +1,7 @@
 package ddd.leave.interfaces.assembler;
 
 import ddd.leave.domain.leave.entity.valueobject.Applicant;
+import ddd.leave.domain.person.entity.valueobject.PersonType;
 import ddd.leave.interfaces.dto.ApplicantDTO;
 
 public class ApplicantAssembler {
@@ -15,6 +16,7 @@ public class ApplicantAssembler {
     public static Applicant toDO(ApplicantDTO dto){
         Applicant applicant = new Applicant();
         applicant.setPersonId(dto.getPersonId());
+        applicant.setPersonType(PersonType.from(dto.getApplicantType()));
         applicant.setPersonName(dto.getPersonName());
         return applicant;
     }

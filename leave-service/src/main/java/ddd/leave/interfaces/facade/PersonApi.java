@@ -20,7 +20,7 @@ public class PersonApi {
     PersonApplicationService personApplicationService;
 
     @PostMapping
-    public Response create(PersonDTO personDTO) {
+    public Response create(@RequestBody PersonDTO personDTO) {
         try {
             personApplicationService.create(PersonAssembler.toDO(personDTO));
             return Response.ok();
@@ -31,7 +31,7 @@ public class PersonApi {
     }
 
     @PutMapping
-    public Response update(PersonDTO personDTO) {
+    public Response update(@RequestBody PersonDTO personDTO) {
         try {
             personApplicationService.update(PersonAssembler.toDO(personDTO));
         } catch (ParseException e) {
